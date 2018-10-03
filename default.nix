@@ -1,15 +1,8 @@
-{ pkgs ? import ((import <nixpkgs> {}).fetchFromGitHub {
-    owner = "NixOS";
-    repo = "nixpkgs";
-    rev = "a0aeb23";
-    sha256 = "04dgg0f2839c1kvlhc45hcksmjzr8a22q1bgfnrx71935ilxl33d";
-  }){}
-, haddock ? true
-}:
+{ pkgs ? import <nixpkgs> {}, haddock ? true }:
 let
   inherit (pkgs.haskell.lib) buildFromSdist enableCabalFlag sdistTarball buildStrictly;
   inherit (pkgs.haskell.packages) ghc802;
-  ghcjs = pkgs.haskell.packages.ghcjsHEAD.override {
+  ghcjs = pkgs.haskell.packages.ghcjs.override {
      overrides = self: super: {
        jsaddle-warp = super.callPackage ./jsaddle-warp-ghcjs.nix {};
      };
